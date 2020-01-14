@@ -1,0 +1,36 @@
+a:link, a:visited, a:active {
+    color: #900;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #c00;
+    text-decoration: underline;
+}
+
+body {
+    background-color: #121212;
+    color: #919191;
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    display: block;
+    line-height: 1.5em;
+    margin: 0 auto;
+    max-width: 940px;
+}
+
+.center {
+    text-align: center;
+}
+
+#snake_canvas {
+    border: solid 5px #999;
+    display: block;
+    margin: 15px auto;
+}

@@ -31,6 +31,7 @@ p {
 
 #snake_canvas {
     border: solid 5px #999;
+    border-radius: 10px;
     display: block;
     margin: 15px auto;
 }

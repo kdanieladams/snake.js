@@ -118,7 +118,7 @@ function draw() {
 }
 
 function gameOver() {
-    alert("You lose, loser!");
+    alert("Game Over!");
     lives = 3;
     score = 0;
 }

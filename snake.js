@@ -6,8 +6,10 @@ var appleX = 15,
     canvas, 
     ctx,
     fps = 15,
+    lives = 3,
     playerX = 10,
     playerY = 10,
+    score = 0,
     tileSize = 20,
     tileCount = 30,
     trail = new Array(),
@@ -18,6 +20,11 @@ var appleX = 15,
 /**
  * Global Functions
  */
+function decrementLives() {
+    lives--;
+    if(lives == 0) gameOver();
+}
+
 function draw() {
     playerX += velocityX;
     playerY += velocityY;
@@ -42,6 +49,7 @@ function draw() {
         || playerY < -1
         || playerY > tileCount)
     {
+        decrementLives();
         reset();
     }
 
@@ -61,14 +69,23 @@ function draw() {
         // detect collision with player
         if(segmentX == playerX && segmentY == playerY) {
             tailLength = 5;
-            if(velocityY != 0 || velocityX != 0) reset();
+            if(velocityY != 0 || velocityX != 0) {
+                decrementLives();
+                reset();
+            }
         }
 
         // detect collision with apple
         if(segmentX == appleX && segmentY == appleY) {
+            tailLength++;
+            score += 100;
+            if(tailLength % 5 == 0) lives++;
             appleX = randomTileIndex();
             appleY = randomTileIndex();
         }
+
+        // increment score for each segment for each frame
+        if(velocityX != 0 || velocityY != 0) score++;
     }
 
     // determine snake length
@@ -88,6 +105,22 @@ function draw() {
     ctx.fillStyle = 'red';
     ctx.fillRect(appleX * tileSize, appleY * tileSize, 
         tileSize - 2, tileSize - 2);
+
+    // display score and lives
+    ctx.fillStyle = 'white';
+    ctx.font = '16px sans-serif';
+    ctx.fillText('Score: ' + score, 15, 20);
+    var livesTxt = 'Lives: ';
+    for(i = 0; i < lives; i++) {
+        livesTxt += '$ ';
+    }
+    ctx.fillText(livesTxt, 490, 20);
+}
+
+function gameOver() {
+    alert("You lose, loser!");
+    lives = 3;
+    score = 0;
 }
 
 function keyPush(event) {

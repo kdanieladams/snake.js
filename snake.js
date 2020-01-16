@@ -30,18 +30,20 @@ function draw() {
     playerY += velocityY;
 
     // wrap the game boundaries
-    // if(playerX < 0) {
-    //     playerX = tileCount - 1;
-    // }
-    // if(playerX > tileCount - 1) {
-    //     playerX = 0;
-    // }
-    // if(playerY < 0) {
-    //     playerY = tileCount - 1;
-    // }
-    // if(playerY > tileCount - 1) {
-    //     playerY = 0;
-    // }
+    /*
+    if(playerX < 0) {
+        playerX = tileCount - 1;
+    }
+    if(playerX > tileCount - 1) {
+        playerX = 0;
+    }
+    if(playerY < 0) {
+        playerY = tileCount - 1;
+    }
+    if(playerY > tileCount - 1) {
+        playerY = 0;
+    }
+    */
 
     // don't wrap the game boundaries
     if(playerX < -1 
@@ -66,7 +68,7 @@ function draw() {
         ctx.fillRect(segmentX * tileSize, segmentY * tileSize, 
             tileSize - 2, tileSize - 2);
         
-        // detect collision with player
+        // detect segment-collision with player
         if(segmentX == playerX && segmentY == playerY) {
             tailLength = 5;
             if(velocityY != 0 || velocityX != 0) {
@@ -75,17 +77,11 @@ function draw() {
             }
         }
 
-        // detect collision with apple
+        // relocate the apple if it's covered by a tail segment
         if(segmentX == appleX && segmentY == appleY) {
-            tailLength++;
-            score += 100;
-            if(tailLength % 5 == 0) lives++;
             appleX = randomTileIndex();
             appleY = randomTileIndex();
         }
-
-        // increment score for each segment for each frame
-        if(velocityX != 0 || velocityY != 0) score++;
     }
 
     // determine snake length
@@ -97,6 +93,9 @@ function draw() {
     // detect collision with apple
     if(appleX == playerX && appleY == playerY) {
         tailLength++;
+        if(tailLength % 5 == 0) lives++;
+
+        score += 100;
         appleX = randomTileIndex();
         appleY = randomTileIndex();
     }
@@ -111,8 +110,13 @@ function draw() {
     ctx.font = '16px sans-serif';
     ctx.fillText('Score: ' + score, 15, 20);
     var livesTxt = 'Lives: ';
-    for(i = 0; i < lives; i++) {
-        livesTxt += '$ ';
+    if(lives <= 4) {
+        for(i = 0; i < lives; i++) {
+            livesTxt += '$ ';
+        }
+    }
+    else {
+        livesTxt += lives;
     }
     ctx.fillText(livesTxt, 490, 20);
 }

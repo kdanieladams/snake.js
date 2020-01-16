@@ -13,5 +13,3 @@ Simple take on Snake, in ES5.  Use the arrow keys or AWSD to move the snake.  Re
     cd ./snake.js/
     open index.html
     ```
-
-It's *just* that easy! Don't you just love ES5?

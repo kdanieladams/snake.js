@@ -95,7 +95,7 @@ function draw() {
         tailLength++;
         if(tailLength % 5 == 0) lives++;
 
-        score += 100;
+        score += Math.floor(100 * (tailLength / 5));
         appleX = randomTileIndex();
         appleY = randomTileIndex();
     }
